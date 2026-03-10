@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+          crossorigin="anonymous"><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f4f6f9;
+        }
+        .sidebar {
+            height: 100vh;
+            background-color: #0d6efd;
+        }
+        .sidebar a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 20px;
+            display: block;
+        }
+        .sidebar a:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+    </style>
+
+    <script>
+        $(document).ready(function () {
+
+            $("#CountryID").change(function () {
+
+                var CountryID = $(this).val();
+
+                $("#StateID").empty();
+                $("#StateID").append('<option value="">-- Select State --</option>');
+
+                if (CountryID) {
+                    $.ajax({
+                        url: "/api/States/" + CountryID,
+                        type: "GET",
+                        success: function (states) {
+
+                            $.each(states, function (i, state) {
+                                $("#StateID").append(
+                                    '<option value="' + state.stateID + '">' +
+                                    state.stateName +
+                                    '</option>'
+                                );
+                            });
+
+                        },
+                        error: function () {
+                            alert("Failed to load States");
+                        }
+                    });
+                }
+            });
+
+        });
+    </script>
+
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+
+
+        <div class="col-md-2 sidebar p-0">
+            <h4 class="text-center py-4 text-white">Employee Panel</h4>
+            <a th:href="@{|/MainEmployee|}"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a>
+            <a th:href="@{|/Customer|}"><i class="bi bi-person-plus me-2"></i>Add Customer</a>
+            <a th:href="@{|/Tenant|}"><i class="bi bi-person-plus me-2"></i>Add Tenant</a>
+            <a th:href="@{|/CountryPage|}">Add Country</a>
+            <a th:href="@{|/StatePage|}">Add State</a>
+            <a th:href="@{|/PropertyTypes|}">Add PropertyType</a>
+            <a th:href="@{|/PropertySubTypes|}">Add PropertySubType</a>
+            <a th:href="@{|/PropertySizes|}">Add Property Size</a>
+            <a th:href="@{|PropertyPurposes|}">Add Property Purpose</a>
+            <a th:href="@{|Property|}">Add Property</a>
+
+
+        </div>
+
+        <div class="col-md-10  text-center">
+            <h2 class="mb-2">Customer Detail</h2>
+
+
+            <div class="row justify-content-center mt-2">
+
+                <div class="col-md-6">
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <h4 class="text-center mb-4"> Customer Register</h4>
+
+                            <form th:action="@{/RegisterCustomer}" th:method="post">
+                        <div class="col-6">
+                            <input type="hidden" id="CustomerID" th:value="${CustomerID}" name="CustomerID" >
+                        </div>
+
+
+
+                        <div  class="row p-2">
+                            <div class="col-6">
+                                Firstname
+                            </div>
+                            <div class="col-6">
+                                <input type="text" class="form-control w-75" id="FirstName"  name="FirstName" th:value="${FirstName}" placeholder="Enter FirstName">
+                            </div>
+                        </div>
+
+
+
+                        <div class="row p-2">
+                            <div class="col-6">
+                                Lastname
+                            </div>
+                            <div class="col-6">
+                                <input type="text" class="form-control w-75" id="LastName" th:value="${LastName}" name="LastName" placeholder="Enter LastName">
+                            </div>
+                        </div>
+
+
+                        <div class="row p-2">
+                            <div class="col-6">
+                                Email
+                            </div>
+                            <div class="col-6">
+                                <input type="email" class="form-control w-75" id="Email" th:value="${Mail}" name="Email" placeholder="Enter Email">
+                            </div>
+                        </div>
+
+
+                        <div class="row p-2">
+                            <div class="col-6">
+                                DateOfBirth
+                            </div>
+                            <div class="col-6">
+                                <input type="date" class="form-control w-75" id="DateOfBirth" th:value="${DOB}" name="DateOfBirth" placeholder="Enter DateOfBirth">
+                            </div>
+                        </div>
+
+
+                        <div class="row p-2">
+                            <div class="col-6">
+                                Mobile
+                            </div>
+                            <div class="col-6">
+                                <input type="text" class= "form-control w-75" id="Mobile" th:value="${Mobile}" name="Mobile" placeholder="Enter Mobile">
+                            </div>
+                        </div>
+
+                        <div class="row p-2">
+                            <div class = "col-6">
+                                AlternativeMobile
+                            </div>
+                            <div class="col-6">
+                                <input type="text" class="form-control w-75" id="AlternativeMobile" name="AlternativeMobile" th:value="${AlternativeMobile}" placeholder="Enter AlternativeMobile">
+                            </div>
+                        </div>
+
+                        <div class="row p-2">
+                            <div class = "col-6">
+                                Address
+                            </div>
+                            <div class="col-6">
+                                <input type="text" class="form-control w-75" id="Address" name="Address" th:value="${Address}" placeholder="Enter Address">
+                            </div>
+                        </div>
+
+                        <div class="row p-2">
+                            <div class = "col-6">
+                                Address2
+                            </div>
+                            <div class="col-6">
+                                <input type="text" class="form-control w-75" id="Address2" name="Address2" th:value="${Address2}" placeholder="Enter Address2">
+                            </div>
+                        </div>
+
+
+                        <div class="row p-2">
+                            <div class = "col-6">
+                                Maritial Status
+                            </div>
+                            <div class="col-6">
+                                <input type="text" class="form-control w-75" id="MaritalStatus" name="MaritalStatus" th:value="${MaritalStatus}" placeholder="Enter MaritalStatus">
+                            </div>
+                        </div>
+
+                        <div class="row p-2">
+                            <div class = "col-6">
+                               WorkType
+                            </div>
+                            <div class="col-6">
+                                <input type="text" class="form-control w-75" id="WorkType" name="WorkType" th:value="${WorkType}" placeholder="Enter WorkType">
+                            </div>
+                        </div>
+
+
+                        <div class="row p-2">
+                            <div class = "col-6">
+                                WorkAddress
+                            </div>
+                            <div class="col-6">
+                                <input type="text" class="form-control w-75" id="WorkAddress" name="WorkAddress" th:value="${WorkAddress}" placeholder="Enter WorkAddress">
+                            </div>
+                        </div>
+
+                        <div class="row p-2">
+                            <div class = "col-6">
+                                Country
+                            </div>
+                            <div class="col-6">
+                                <select class="form-control w-75" id="CountryID" name="Country.CountryID">
+                                    <option value="">-- Select Country --</option>
+                                    <option th:each="Country : ${Countries}"
+                                            th:value="${Country.CountryID}"
+                                            th:text="${Country.CountryName}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row p-2">
+                            <div class = "col-6">
+                                State
+                            </div>
+                            <div class="col-6">
+                                <select id="StateID" class="form-control w-75" name="State.StateID">
+                                    <option value="">-- Select State --</option>
+                                </select>
+
+                            </div>
+                        </div>
+
+
+                        <div class="row text-center mt-3">
+                            <div class="col-12">
+                                <button class="btn btn-primary">Register</button>
+                            </div>
+                        </div>
+                            <div>
+                            </div>
+                            </form>
+
+
+        </div>
+
+    </div>
+</div>
+    </div>
+</div>
+    </div>
+</div>
+
+</body>
+</html>

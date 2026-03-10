@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+          crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+
+        <title>Employee Dashboard</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+        <style>
+            body {
+                background-color: #f4f6f9;
+            }
+            .sidebar {
+                height: 200vh;
+                background-color: #0d6efd;
+
+            }
+            .sidebar a {
+                color: #ffffff;
+                text-decoration: none;
+                padding: 12px 20px;
+                display: block;
+            }
+            .sidebar a:hover {
+                background-color: rgba(255,255,255,0.2);
+            }
+            .card {
+                border-radius: 15px;
+            }
+            .card i {
+                font-size: 40px;
+            }
+            .container {
+  display: flex;
+  align-items: stretch;
+}
+
+        </style>
+    </head>
+    <body>
+
+    <div class="container-fluid">
+        <div class="row">
+
+
+            <div class="col-md-2 sidebar p-0">
+                <h4 class="text-center py-4 text-white">Employee Panel</h4>
+                <a th:href="@{|/MainEmployee|}"><i class="bi bi-speedometer2 me-2"></i>Dashboard</a>
+                <a th:href="@{|/Customer|}"><i class="bi bi-person-plus me-2"></i>Add Customer</a>
+                <a th:href="@{|/Tenant|}"><i class="bi bi-person-plus me-2"></i>Add Tenant</a>
+                <a th:href="@{|/CountryPage|}">Add Country</a>
+                <a th:href="@{|/StatePage|}">Add State</a>
+                <a th:href="@{|/PropertyTypes|}">Add PropertyType</a>
+                <a th:href="@{|/PropertySubTypes|}">Add PropertySubType</a>
+                <a th:href="@{|/PropertySizes|}">Add Property Size</a>
+                <a th:href="@{|PropertyPurposes|}">Add Property Purpose</a>
+                <a th:href="@{|Property|}">Add Property</a>
+
+
+
+
+            </div>
+
+
+            <div class="col-md-10 p-4 text-center">
+                <h2 class="mb-4">Welcome Employee</h2>
+
+
+                <div class="row justify-content-center mt-4">
+                    <div class="col-md-4">
+                        <div class="card shadow text-center p-4">
+                            <i class="bi bi-person-plus-fill text-primary mb-3"></i>
+                            <h5>Add Customer</h5>
+                            <p class="text-muted">Create and manage customer details.</p>
+                            <a th:href="@{|/Customer|}" class="btn btn-primary">Add Customer</a>
+
+
+
+                    </div>
+                </div>
+            </div>
+
+                <div class="row justify-content-center mt-4">
+                    <div class="col-md-4">
+                        <div class="card shadow text-center p-4">
+                            <i class="bi bi-house-door-fill text-primary mb-3"></i>
+                            <h5>Add Property</h5>
+                            <p class="text-muted">Add Property and Details.</p>
+                            <a th:href="@{|/Property|}" class="btn btn-success">Add Property</a>
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row justify-content-center mt-4">
+                    <div class="col-md-4">
+                        <div class="card shadow text-center p-4">
+                            <i class="bi bi-people-fill text-primary mb-3"></i>
+                            <h5>Add Tenant</h5>
+                            <p class="text-muted">Create and manage Tenant details.</p>
+                            <a th:href="@{|/Tenant|}" class="btn btn-primary">Add Tenant</a>
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+            <div class="row justify-content-center mt-4 mb-3 p-4">
+                <div class="col-md-8">
+                    <div  class="card shadow text-center p-4">
+                        <h5>Search Employee</h5>
+                        <form th:action="@{/Find}" th:object="${Employee}" method="post" class="mb-3">
+                            <input type="text" id="mobiles" name="mobiles" placeholder="Enter Mobile">
+                            <button class="btn btn-primary">Search</button>
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>firstName</th>
+                                    <th>LastName</th>
+                                    <th>Email</th>
+                                    <th>DateOfBirth</th>
+                                    <th>Password</th>
+                                    <th>Mobile</th>
+                                    <th>Salary</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+
+
+                                </tr>
+                                </thead>
+
+
+                                <tr th:each="SMS : ${Data}">
+                                    <td th:text="${SMS.FirstName}"></td>
+                                    <td th:text="${SMS.LastName}"></td>
+                                    <td th:text="${SMS.Email}"></td>
+                                    <td th:text="${SMS.DateOfBirth}"></td>
+                                    <td th:text="${SMS.Password}"></td>
+                                    <td th:text="${SMS.Mobile}"></td>
+                                    <td th:text="${SMS.Salary}"></td>
+
+                                    <td><a th:href="@{|/Update/${SMS.EmployeeID}|}" class="btn btn-success">EDIT</a></td>
+                                    <td><a th:href="@{|/Remove/${SMS.EmployeeID}|}" class="btn btn-danger">DELETE</a></td>
+
+                                </tr>
+                            </table>
+                            <p th:text="${Error}"></p>
+                        </form>
+                    </div>
+
+
+                </div>
+            </div>
+
+                <div class="row justify-content-center mt-4 mb-3 p-4">
+
+                    <div class="col-md-10">
+
+                        <div class="card shadow text-center p-4">
+
+                            <h5>Property</h5>
+
+                            <form th:action="@{/All}" method="get" class="mb-3">
+                                <button class="btn btn-primary w-25">Show All</button>
+                            </form>
+
+                            <table class="table table-bordered table-striped">
+
+                                <thead class="table-dark">
+                                <tr>
+                                    <th>Property Name</th>
+                                    <th>Property Type</th>
+                                    <th>Property SubType</th>
+                                    <th>Property Size</th>
+                                    <th>Property Purpose</th>
+                                    <th>Property Address</th>
+                                    <th>Country</th>
+                                    <th>State</th>
+                                    <th>Tenant</th>
+                                    <th>Add Property</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <tr th:each="prp : ${get}">
+
+                                    <td th:text="${prp.propertyName}"></td>
+
+                                    <td th:text="${prp.propertyType.propertyTypeName}"></td>
+
+                                    <td th:text="${prp.propertySubType.subTypeName}"></td>
+
+                                    <td th:text="${prp.propertySize.propertySizeName}"></td>
+
+                                    <td th:text="${prp.propertyPurpose.purposeName}"></td>
+
+                                    <td th:text="${prp.propertyAddress}"></td>
+
+                                    <td th:text="${prp.country.countryName}"></td>
+
+                                    <td th:text="${prp.state.stateName}"></td>
+
+                                    <td>  <select class="form-control w-75" id="TenantID" name="Tenant.TenantID">
+                                        <option value="">-- Select Country --</option>
+                                        <option th:each="Tenant : ${Tenants}"
+                                                th:value="${Tenant.TenantID}"
+                                                th:text="${Tenant.firstname}">
+                                        </option>
+                                    </select>
+                                    </td>
+                                    <td>
+                                        <input type="hidden" name="propertyID"
+                                               th:value="${prp.PropertyID}"/>
+
+                                        <button type="submit" class="btn btn-success">
+                                            Assign
+                                        </button>
+                                    </td>
+
+
+                                </tr>
+
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="row justify-content-center mt-4 mb-3 p-4">
+                    <div class="col-md-8">
+                        <div  class="card shadow text-center p-4">
+                            <h5>Search Customer</h5>
+                                <!-- Search Box -->
+                                <div class="mb-3">
+                                    <input type="text"
+                                           id="firstname"
+                                           class="form-control"
+                                           placeholder="Search Customer by Name..."
+                                           onkeyup="searchCustomerAjax()">
+                                </div>
+
+
+                                <table class="table table-bordered table-striped">
+                                    <thead class="table-dark">
+                                    <tr>
+                                        <th>Property Name</th>
+                                        <th>Customer Name</th>
+                                        <th>Mobile</th>
+                                        <th>Property Type</th>
+                                        <th>Property SubType</th>
+                                        <th>Property Size</th>
+                                        <th>Property Purpose</th>
+                                        <th>Property Address</th>
+                                        <th>Country</th>
+                                        <th>State</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody id="customerTableBody">
+
+                                    </tbody>
+                                </table>
+
+                                <script>
+
+                                    function searchCustomerAjax() {
+
+                                        let name = document.getElementById("firstname").value;
+
+                                        let tableBody = document.getElementById("customerTableBody");
+
+
+                                        if (name.trim() === "") {
+                                            tableBody.innerHTML = "";
+                                            return;
+                                        }
+
+                                        fetch("/ajaxSearchCustomer?firstname=" + encodeURIComponent(name))
+                                            .then(response => {
+
+                                                if (!response.ok) {
+                                                    throw new Error("Network error");
+                                                }
+
+                                                return response.json();
+                                            })
+                                            .then(data => {
+
+                                                tableBody.innerHTML = "";
+
+
+                                                if (data.length === 0) {
+
+                                                    tableBody.innerHTML = `
+                                                        <tr>
+                                                            <td colspan="10"
+                                                                class="text-center text-danger fw-bold">
+                                                                No Data Found
+                                                            </td>
+                                                        </tr>
+                                                    `;
+
+                                                    return;
+                                                }
+
+
+                                                data.forEach(p => {
+
+                                                    let row = `
+                                                        <tr>
+                                                            <td>${p.propertyname}</td>
+                                                            <td>${p.firstname}</td>
+                                                            <td>${p.mobile}</td>
+                                                            <td>${p.propertytypename}</td>
+                                                            <td>${p.subtypename}</td>
+                                                            <td>${p.sizename}</td>
+                                                            <td>${p.purposename}</td>
+                                                            <td>${p.propertyaddress}</td>
+                                                            <td>${p.countryname}</td>
+                                                            <td>${p.statename}</td>
+                                                        </tr>
+                                                    `;
+
+                                                    tableBody.innerHTML += row;
+
+                                                });
+
+                                            })
+                                            .catch(error => {
+
+                                                console.error("Error:", error);
+
+                                                tableBody.innerHTML = `
+
+
+                                                `;
+                                            });
+                                    }
+
+                                </script>
+
+
+                                <p th:text="${MSG}"></p>
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+        </div>
+    </div>
+
+        </div>
+
+
+
+    </body>
+    </html>
