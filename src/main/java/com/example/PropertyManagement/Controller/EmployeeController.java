@@ -255,42 +255,5 @@ public class EmployeeController {
         return "Employee";
     }
 
-    @PostMapping("/assignProperty")
-    @ResponseBody
-    public String assignProperty(@RequestParam Long tenantId,
-                                 @RequestParam Long propertyId,
-                                 HttpSession session) {
-
-        EmployeeProperty2 emp =
-                (EmployeeProperty2) session.getAttribute("LoginEmployee");
-
-        Long createdBy = emp.getEmployeeID();
-
-        boolean saved =
-                EService.savetenantproperty(tenantId, propertyId, createdBy);
-
-        if (!saved) {
-            return "ERROR";
-        }
-
-        return "SUCCESS";
-    }
-
-    @GetMapping("/View")
-    public String view(Model model) {
-        model.addAttribute("output", EService.tenantlist());
-        return "TenantListPage";
-    }
-
-    @GetMapping("/customerview")
-    public String list(Model model) {
-        model.addAttribute("customerlist", EService.customerlist());
-        return  "CustomerListPage";
-    }
-
-
-
-}
-
 
 
