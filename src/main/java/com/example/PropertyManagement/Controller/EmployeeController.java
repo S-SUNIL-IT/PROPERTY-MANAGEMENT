@@ -285,7 +285,7 @@ public class EmployeeController {
     @GetMapping("/customerview")
     public String list(Model model) {
         model.addAttribute("customerlist", EService.customerlist());
-        return "CustomerListPage";
+        return  "CustomerListPage";
     }
 
 
