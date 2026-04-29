@@ -58,7 +58,7 @@ public class EmployeeController {
         EmployeeProperty data = EService.Edit(EmployeeID);
 
         if (data != null) {
-            model.addAttribute("EmployeeID",data.getEmployeeID());
+            model.addAttribute("EmployeeID", data.getEmployeeID());
             model.addAttribute("FirstName", data.getFirstName());
             model.addAttribute("LastName", data.getLastName());
             model.addAttribute("Mail", data.getEmail());
@@ -285,9 +285,8 @@ public class EmployeeController {
     @GetMapping("/customerview")
     public String list(Model model) {
         model.addAttribute("customerlist", EService.customerlist());
-        return  "CustomerListPage";
+        return "CustomerListPage";
     }
-
 
 
 }

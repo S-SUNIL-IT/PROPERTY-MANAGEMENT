@@ -123,6 +123,9 @@ public class PropertyController {
         return "Admin";
     }
 
-
+@GetMapping("/MainAdmin")
+    public String seeadmin() {
+        return "Admin";
+}
 
 }

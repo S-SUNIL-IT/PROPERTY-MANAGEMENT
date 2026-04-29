@@ -61,8 +61,11 @@
 
 <div class="col-md-2 sidebar p-0">
     <h4 class="text-white text-center py-3">Admin Panel</h4>
-    <a th:href="@{|/SignUp|}">Add Admin</a>
-    <a th:href="@{|/RegisterEmployee|}">Add Employee</a>
+    <a th:href="@{/MainAdmin}">
+        <i class="bi bi-speedometer2 me-2"></i>Dashboard
+    </a>
+    <a th:href="@{|/SignUp|}"><i class="fa-solid fa-user me-2"></i>Add Admin</a>
+    <a th:href="@{|/RegisterEmployee|}"><i class="fa-solid fa-user me-2"></i>Add Employee</a>
 
 </div>
 
