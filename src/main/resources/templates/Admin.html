@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/MasterAdmin}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -28,21 +30,6 @@
                 font-size: 40px;
             }
 
-            .sidebar {
-                height: 100vh;
-                background-color: #212529;
-                position: fixed;
-            }
-            .sidebar a {
-                color: #adb5bd;
-                text-decoration: none;
-                display: block;
-                padding: 12px 20px;
-            }
-            .sidebar a:hover {
-                background-color: #343a40;
-                color: #fff;
-            }
             .card {
                 border-radius: 12px;
             }
@@ -65,12 +52,10 @@
 
 
 .search-container .search-input{
-    padding-left:55px !important;
+    padding-left:55px ;
     height:45px;
     border-radius:30px;
 }
-
-
 
     </style>
 
@@ -83,17 +68,9 @@
 
     </head>
     <body>
-
+    <div layout:fragment="content">
     <div class="container-fluid">
         <div class="row">
-
-
-            <div class="col-md-2 sidebar p-0">
-                <h4 class="text-white text-center py-3">Admin Panel</h4>
-                <a th:href="@{|/SignUp|}">Add Admin</a>
-                <a th:href="@{|/RegisterEmployee|}">Add Employee</a>
-
-            </div>
 
         <div class="col-md-12 p-4">
             <h2 class="mb-3 text-center">Welcome Admin</h2>
@@ -126,7 +103,7 @@
                 </div>
 
             <div class="row justify-content-center mt-4 mb-3 p-4">
-                <div class="col-md-6">
+                <div class="col-md-7">
                     <div  class="card shadow text-center p-4">
                         <h5>Search Admin</h5>
                         <form th:action="@{/Search}" th:object="${admin}" method="post" class="mb-3">
@@ -138,6 +115,7 @@
                                 <input type="text" id="mobile" name="mobile" placeholder="Enter Mobile" class="form-control search-input">
                             </div>
                             <button class="btn btn-primary w-25 mt-2">Search</button>
+                            <div class="table-responsive">
                             <table class="table table-bordered mt-2">
                                 <thead>
                                 <tr>
@@ -171,6 +149,7 @@
                                 </tr>
                             </table>
                             <p th:text="${Errors}"></p>
+                            </div>
                         </form>
 
                     </div>
@@ -183,6 +162,6 @@
     </div>
 
 
-
+</div>
 </body>
 </html>
