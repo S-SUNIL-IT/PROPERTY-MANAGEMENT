@@ -395,6 +395,16 @@ public class EmployeeController {
     }
 
 
+    @GetMapping("/RentFollowUPPage")
+    public String rentFollow(Model model) {
+
+        model.addAttribute("payments",
+                EService.getRentFollowUp());
+
+        return "RentFollowUPPage";
+    }
+
+
 }
 
 

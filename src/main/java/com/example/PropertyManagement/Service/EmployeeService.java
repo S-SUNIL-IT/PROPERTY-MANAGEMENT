@@ -43,6 +43,8 @@ public class EmployeeService {
 
     @Autowired RentPaymentRepository rentpayrep;
 
+    @Autowired RentFollowUpRepository RentFUp;
+
 
 
     public EmployeeProperty2 Store(String Password,String Email,String FirstName) {
@@ -147,7 +149,7 @@ public class EmployeeService {
         }
 
         TenantRep.save(add);
-        return "Customer Registered Successfully";
+        return "Tenant Registered Successfully";
     }
 
     public List<ModelProperty> getallp() {
@@ -406,5 +408,11 @@ public class EmployeeService {
         return rentpayrep.searchRentHistory(propertyName,
                 startMonth,
                 endMonth);
+    }
+
+    public List<RentFollowUpDTO> getRentFollowUp() {
+
+        return RentFUp.getRentFollowUp();
+
     }
 }
