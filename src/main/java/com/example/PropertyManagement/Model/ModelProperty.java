@@ -10,7 +10,7 @@ public class ModelProperty {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long PropertyID;
+    private Long propertyId;
 
     private String PropertyName;
 
@@ -46,15 +46,17 @@ public class ModelProperty {
 
     private  Long CreatedBy;
 
-    @OneToOne(mappedBy = "property")
-    private ModelTenantMapProperty tenantMap;
+    private String status;
 
-    public Long getPropertyID() {
-        return PropertyID;
+    @OneToMany(mappedBy = "property")
+    private List<ModelTenantMapProperty> tenantMap;
+
+    public Long getPropertyId() {
+        return propertyId;
     }
 
-    public void setPropertyID(Long propertyID) {
-        PropertyID = propertyID;
+    public void setPropertyId(Long propertyId) {
+        this.propertyId = propertyId;
     }
 
     public String getPropertyName() {
@@ -137,11 +139,19 @@ public class ModelProperty {
         CreatedBy = createdBy;
     }
 
-    public ModelTenantMapProperty getTenantMap() {
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public List<ModelTenantMapProperty> getTenantMap() {
         return tenantMap;
     }
 
-    public void setTenantMap(ModelTenantMapProperty tenantMap) {
+    public void setTenantMap(List<ModelTenantMapProperty> tenantMap) {
         this.tenantMap = tenantMap;
     }
 }

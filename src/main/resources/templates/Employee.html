@@ -167,6 +167,8 @@
                 </div>
             </div>
 
+
+
                 <div class="row justify-content-center mt-4 mb-3 p-4">
 
                     <div class="col-md-7">
@@ -193,6 +195,7 @@
                                         <th>Country</th>
                                         <th>State</th>
                                         <th>Tenant</th>
+                                        <th>Rent Amount</th>
                                         <th>Assign</th>
                                     </tr>
                                     </thead>
@@ -231,10 +234,19 @@
                                                     </option>
                                                 </select>
 
+
+
                                                 <input type="hidden"
                                                        name="propertyId"
-                                                       th:value="${prp.propertyID}" />
+                                                       th:value="${prp.propertyId}" />
 
+                                                <td>
+                                                <input type="number"
+                                                       name="rentAmount"
+                                                       placeholder="Monthly Rent"
+                                                       class="form-control w-100"
+                                                       required>
+                                                </td>
                                              <td><button type="submit"
                                                         class="btn btn-success">
                                                     Assign
@@ -253,12 +265,6 @@
 
 
                                 </table>
-                                <div id="globalError"
-                                     class="text-danger fw-bold mt-3 text-center"></div>
-
-                                <div id="successMsg"
-                                     class="text-success fw-bold mt-2 text-center"></div>
-
 
                                 <script>
 
@@ -306,10 +312,14 @@
                                     });
                                 </script>
 
-
-
-
                             </div>
+
+                            <div id="globalError"
+                                 class="text-danger fw-bold mt-3 text-center"></div>
+
+                            <div id="successMsg"
+                                 class="text-success fw-bold mt-2 text-center"></div>
+
 
                         </div>
 

@@ -7,19 +7,19 @@ import jakarta.persistence.*;
 public class ModelCustomer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long CustomerID;
+    private Long customerID;
 
-    private String FirstName;
-    private String LastName;
-    private String Email;
-    private String DateOfBirth;
-    private String Mobile;
-    private String AlternativeMobile;
-    private String Address;
-    private String Address2;
-    private String MaritalStatus;
-    private String WorkType;
-    private String WorkAddress;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String dateOfBirth;
+    private String mobile;
+    private String alternativeMobile;
+    private String address;
+    private String address2;
+    private String maritalStatus;
+    private String workType;
+    private String workAddress;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CountryID")
@@ -29,102 +29,102 @@ public class ModelCustomer {
     @JoinColumn(name = "StateID")
     private ModelState state;
 
-    private  Long CreatedBy;
+    private  Long createdBy;
 
     public Long getCustomerID() {
-        return CustomerID;
+        return customerID;
     }
 
     public void setCustomerID(Long customerID) {
-        CustomerID = customerID;
+        this.customerID = customerID;
     }
 
     public String getFirstName() {
-        return FirstName;
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
-        FirstName = firstName;
+        this.firstName = firstName;
     }
 
     public String getLastName() {
-        return LastName;
+        return lastName;
     }
 
     public void setLastName(String lastName) {
-        LastName = lastName;
+        this.lastName = lastName;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
     public String getDateOfBirth() {
-        return DateOfBirth;
+        return dateOfBirth;
     }
 
     public void setDateOfBirth(String dateOfBirth) {
-        DateOfBirth = dateOfBirth;
+        this.dateOfBirth = dateOfBirth;
     }
 
     public String getMobile() {
-        return Mobile;
+        return mobile;
     }
 
     public void setMobile(String mobile) {
-        Mobile = mobile;
+        this.mobile = mobile;
     }
 
     public String getAlternativeMobile() {
-        return AlternativeMobile;
+        return alternativeMobile;
     }
 
     public void setAlternativeMobile(String alternativeMobile) {
-        AlternativeMobile = alternativeMobile;
+        this.alternativeMobile = alternativeMobile;
     }
 
     public String getAddress() {
-        return Address;
+        return address;
     }
 
     public void setAddress(String address) {
-        Address = address;
+        this.address = address;
     }
 
     public String getAddress2() {
-        return Address2;
+        return address2;
     }
 
     public void setAddress2(String address2) {
-        Address2 = address2;
+        this.address2 = address2;
     }
 
     public String getMaritalStatus() {
-        return MaritalStatus;
+        return maritalStatus;
     }
 
     public void setMaritalStatus(String maritalStatus) {
-        MaritalStatus = maritalStatus;
+        this.maritalStatus = maritalStatus;
     }
 
     public String getWorkType() {
-        return WorkType;
+        return workType;
     }
 
     public void setWorkType(String workType) {
-        WorkType = workType;
+        this.workType = workType;
     }
 
     public String getWorkAddress() {
-        return WorkAddress;
+        return workAddress;
     }
 
     public void setWorkAddress(String workAddress) {
-        WorkAddress = workAddress;
+        this.workAddress = workAddress;
     }
 
     public ModelCountry getCountry() {
@@ -144,10 +144,10 @@ public class ModelCustomer {
     }
 
     public Long getCreatedBy() {
-        return CreatedBy;
+        return createdBy;
     }
 
     public void setCreatedBy(Long createdBy) {
-        CreatedBy = createdBy;
+        this.createdBy = createdBy;
     }
 }

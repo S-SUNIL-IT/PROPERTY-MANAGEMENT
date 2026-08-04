@@ -7,8 +7,10 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface TenantMapProperty extends JpaRepository<ModelTenantMapProperty,Long> {
 
-    boolean existsByProperty(ModelProperty property);
+    boolean existsByPropertyAndDeletedFalse(ModelProperty property);
 
+    ModelTenantMapProperty
+    findByProperty_propertyIdAndDeletedFalse(Long propertyId);
 
 
 }

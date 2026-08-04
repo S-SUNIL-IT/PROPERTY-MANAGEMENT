@@ -7,11 +7,14 @@ import jakarta.persistence.Access;
 import jakarta.persistence.GeneratedValue;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class EmployeeController {
@@ -118,11 +121,20 @@ public class EmployeeController {
     }
 
     @PostMapping("/RegisterCustomer")
-    public String Register(ModelCustomer Add, HttpSession session) {
-        EmployeeProperty2 emp = (EmployeeProperty2) session.getAttribute("LoginEmployee");
+    public String Register(ModelCustomer Add,
+                           HttpSession session,
+                           Model model) {
+
+        EmployeeProperty2 emp =
+                (EmployeeProperty2) session.getAttribute("LoginEmployee");
+
         Add.setCreatedBy(emp.getEmployeeID());
-        EService.AddCustomer(Add);
-        return "Employee";
+
+        String msg = EService.AddCustomer(Add);
+
+        model.addAttribute("mail", msg);
+
+        return "CustomerRegister";
     }
 
     @GetMapping("/PropertyTypes")
@@ -241,11 +253,20 @@ public class EmployeeController {
     }
 
     @PostMapping("/RegisterTenant")
-    public String TenantRegister(ModelTenant tenant, HttpSession session) {
-        EmployeeProperty2 emp = (EmployeeProperty2) session.getAttribute("LoginEmployee");
-        tenant.setCreatedBy(emp.getEmployeeID());
-        EService.AddTenant(tenant);
-        return "Employee";
+    public String Registertenant(ModelTenant Tenant,
+                           HttpSession session,
+                           Model model) {
+
+        EmployeeProperty2 emp =
+                (EmployeeProperty2) session.getAttribute("LoginEmployee");
+
+        Tenant.setCreatedBy(emp.getEmployeeID());
+
+        String msg = EService.AddTenant(Tenant);
+
+        model.addAttribute("maill", msg);
+
+        return "TenantRegister";
     }
 
     @GetMapping("/All")
@@ -259,6 +280,7 @@ public class EmployeeController {
     @ResponseBody
     public String assignProperty(@RequestParam Long tenantId,
                                  @RequestParam Long propertyId,
+                                 @RequestParam Double rentAmount,
                                  HttpSession session) {
 
         EmployeeProperty2 emp =
@@ -267,7 +289,7 @@ public class EmployeeController {
         Long createdBy = emp.getEmployeeID();
 
         boolean saved =
-                EService.savetenantproperty(tenantId, propertyId, createdBy);
+                EService.savetenantproperty(tenantId, propertyId, createdBy,rentAmount);
 
         if (!saved) {
             return "ERROR";
@@ -286,6 +308,90 @@ public class EmployeeController {
     public String list(Model model) {
         model.addAttribute("customerlist", EService.customerlist());
         return "CustomerListPage";
+    }
+
+    @GetMapping("/searchTenant")
+    @ResponseBody
+    public List<TenantTreeView> searchTenant(
+            @RequestParam("keyword") String keyword) {
+
+        return EService.searchTenant(keyword);
+    }
+
+    @GetMapping("/tenantSuggestion")
+    @ResponseBody
+    public List<TenantTreeView> tenantSuggestion(
+            @RequestParam String keyword){
+
+        return EService.searchTenant(keyword);
+    }
+
+    @GetMapping("/searchCustomer")
+    @ResponseBody
+    public List<CustomerTreeView> searchCustomer(@RequestParam String Value){
+        return EService.SearchCustomer(Value);
+    }
+
+    @GetMapping("/customerSuggestion")
+    @ResponseBody
+    public List<CustomerTreeView> customerSuggestion(@RequestParam String Value){
+        return EService.SearchCustomer(Value);
+    }
+
+    @PostMapping("/releaseProperty")
+    @ResponseBody
+    public String releaseProperty(@RequestBody Map<String, Long> data) {
+
+        Long propertyId = data.get("propertyId");
+
+       EService.releaseProperty(propertyId);
+
+        return "Released";
+    }
+
+    @GetMapping("/RentPayment")
+    public String rental(Model model) {
+        model.addAttribute("tenantMaps",
+                EService.getalltenant());
+        return "RentPayment";
+    }
+
+    @PostMapping("/collectRent")
+    public String rentP(Model model,
+                        Long tenantmapID,
+                        String month,
+                        Double rentAmount,String paymentMode,String paymentReference) {
+
+        EService.collectrent(tenantmapID, month, rentAmount , paymentMode, paymentReference);
+
+        model.addAttribute("tenantMaps",
+                EService.getalltenant());
+
+        model.addAttribute("success",
+                "PAID SUCCESSFULLY");
+
+        return "RentPayment";
+    }
+
+
+    @PostMapping("/createOrder")
+    @ResponseBody
+    public String createOrder(Double amount)
+            throws Exception {
+
+        return EService.createOrder(amount);
+    }
+
+    @GetMapping("/RentHistory")
+    public String rentHistory(Model model, @RequestParam(required = false) String propertyName,
+                              @RequestParam(required = false) String startMonth,
+                              @RequestParam(required = false) String endMonth){
+
+        model.addAttribute("payments",
+                EService.getRentHistory(propertyName,startMonth,endMonth));
+
+        return "RentHistory";
+
     }
 
 

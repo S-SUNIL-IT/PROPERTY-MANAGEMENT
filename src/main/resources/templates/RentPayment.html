@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/Masteremployeepage}">
+<head>
+    <meta charset="UTF-8">
+    <title>Collect Rent</title>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <script>
+
+        function payNow(button){
+
+            let paymentMode = button.closest("tr")
+                        .querySelector(".paymentMode")
+                        .value;
+
+            let tenantmapID = button.getAttribute("data-id");
+
+            let rentAmount = button.getAttribute("data-rent");
+
+            let month = button.closest("tr")
+                              .querySelector(".monthInput")
+                              .value;
+
+            if(month === ""){
+
+                alert("Select Month");
+
+                return;
+            }
+            if(paymentMode == "RAZORPAY") {
+
+            fetch("/createOrder?amount=" + rentAmount,{
+                method:"POST"
+            })
+
+            .then(response => response.json())
+
+            .then(order => {
+
+                var options = {
+
+                    key : "rzp_test_T4b2IIpHaqJwiM",
+
+                    amount : order.amount,
+
+                    currency : "INR",
+
+                    name : "Property Management",
+
+                    description : "Rent Payment",
+
+                    order_id : order.id,
+
+                    handler : function(response){
+
+                        let form = document.createElement("form");
+
+                        form.method = "POST";
+
+                        form.action = "/collectRent";
+
+                        form.innerHTML =
+                            '<input type="hidden" name="tenantmapID" value="'+tenantmapID+'">' +
+                            '<input type="hidden" name="rentAmount" value="'+rentAmount+'">' +
+                            '<input type="hidden" name="month" value="'+month+'">' +
+    '<input type="hidden" name="paymentMode" value="RAZORPAY">' +
+    '<input type="hidden" name="paymentReference" value="'+response.razorpay_payment_id+'">';
+
+                        document.body.appendChild(form);
+
+                        form.submit();
+                    }
+                };
+
+                var rzp = new Razorpay(options);
+
+                rzp.open();
+
+            });
+
+        }
+
+        else if(paymentMode=="CASH"){
+
+    let form=document.createElement("form");
+
+    form.method="POST";
+
+    form.action="/collectRent";
+
+    form.innerHTML=
+
+    '<input type="hidden" name="tenantmapID" value="'+tenantmapID+'">'+
+
+    '<input type="hidden" name="rentAmount" value="'+rentAmount+'">'+
+
+    '<input type="hidden" name="month" value="'+month+'">'+
+
+    '<input type="hidden" name="paymentMode" value="CASH">'+
+
+    '<input type="hidden" name="paymentReference" value="None">';
+
+    document.body.appendChild(form);
+
+    form.submit();
+
+}
+
+else if(paymentMode=="GPAY"){
+
+    let ref=prompt("Enter Google Pay Reference Number");
+
+    if(ref==null) return;
+
+    let form=document.createElement("form");
+
+    form.method="POST";
+
+    form.action="/collectRent";
+
+    form.innerHTML=
+
+    '<input type="hidden" name="tenantmapID" value="'+tenantmapID+'">'+
+
+    '<input type="hidden" name="rentAmount" value="'+rentAmount+'">'+
+
+    '<input type="hidden" name="month" value="'+month+'">'+
+
+    '<input type="hidden" name="paymentMode" value="GPAY">'+
+
+    '<input type="hidden" name="paymentReference" value="'+ref+'">';
+
+    document.body.appendChild(form);
+
+    form.submit();
+
+}
+
+else if(paymentMode=="PAYTM"){
+
+    let ref = prompt("Enter Paytm Transaction ID");
+
+    if(ref == null) return;
+
+    let form = document.createElement("form");
+
+    form.method = "POST";
+
+    form.action = "/collectRent";
+
+    form.innerHTML =
+
+    '<input type="hidden" name="tenantmapID" value="'+tenantmapID+'">'+
+
+    '<input type="hidden" name="rentAmount" value="'+rentAmount+'">'+
+
+    '<input type="hidden" name="month" value="'+month+'">'+
+
+    '<input type="hidden" name="paymentMode" value="PAYTM">'+
+
+    '<input type="hidden" name="paymentReference" value="'+ref+'">';
+
+    document.body.appendChild(form);
+
+    form.submit();
+
+}
+
+else if(paymentMode=="PHONEPE"){
+
+    let ref = prompt("Enter PhonePe Reference Number");
+
+    if(ref == null) return;
+
+    let form = document.createElement("form");
+
+    form.method = "POST";
+
+    form.action = "/collectRent";
+
+    form.innerHTML =
+
+    '<input type="hidden" name="tenantmapID" value="'+tenantmapID+'">'+
+
+    '<input type="hidden" name="rentAmount" value="'+rentAmount+'">'+
+
+    '<input type="hidden" name="month" value="'+month+'">'+
+
+    '<input type="hidden" name="paymentMode" value="PHONEPE">'+
+
+    '<input type="hidden" name="paymentReference" value="'+ref+'">';
+
+    document.body.appendChild(form);
+
+    form.submit();
+
+}
+
+    }
+
+    </script>
+
+</head>
+<body>
+
+<div layout:fragment="content">
+
+    <div class="container-fluid">
+
+        <div class="row justify-content-center mt-4 mb-3 p-4">
+
+            <div class="col-md-8">
+
+                <div class="card shadow text-center p-4">
+
+                    <h5>Collect Rent</h5>
+
+                    <div th:if="${success}"
+                         class="alert alert-success text-center mt-3">
+                        <span th:text="${success}"></span>
+                    </div>
+
+                    <div class="table-responsive">
+
+                        <table class="table table-bordered table-striped mt-3">
+
+                            <thead class="table-dark">
+                            <tr>
+                                <th>Tenant Name</th>
+                                <th>Property Name</th>
+                                <th>Monthly Rent</th>
+                                <th>Month</th>
+                                <th>Payment Mode</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+
+                            <tr th:each="rent : ${tenantMaps}">
+
+                                <td th:text="${rent.tenant.firstname}"></td>
+
+                                <td th:text="${rent.property.propertyName}"></td>
+
+                                <td th:text="${rent.rentAmount}"></td>
+
+                                <td>
+                                    <input type="month"
+                                           class="form-control monthInput"
+                                           required>
+                                </td>
+
+                                <td>
+
+                                    <select class="form-select paymentMode">
+
+                                        <option value="RAZORPAY">Razorpay</option>
+
+                                        <option value="CASH">Cash</option>
+
+                                        <option value="GPAY">Google Pay</option>
+
+                                        <option value="PAYTM">Paytm</option>
+
+                                        <option value="PHONEPE">PhonePe</option>
+
+                                    </select>
+
+                                </td>
+
+                                <td>
+
+                                    <button type="button"
+                                            class="btn btn-success"
+                                            th:attr="
+                                                data-id=${rent.tenantmapID},
+                                                data-rent=${rent.rentAmount}"
+                                            onclick="payNow(this)">
+                                        PAY
+                                    </button>
+
+                                </td>
+
+                            </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>
