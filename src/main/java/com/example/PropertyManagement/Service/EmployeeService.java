@@ -45,6 +45,8 @@ public class EmployeeService {
 
     @Autowired RentFollowUpRepository RentFUp;
 
+    @Autowired ReminderRepository ReminderRep;
+
 
 
     public EmployeeProperty2 Store(String Password,String Email,String FirstName) {
@@ -410,9 +412,54 @@ public class EmployeeService {
                 endMonth);
     }
 
-    public List<RentFollowUpDTO> getRentFollowUp() {
+    public List<RentFollowUpDTO> getRentFollowUp(String propertyName) {
 
-        return RentFUp.getRentFollowUp();
+        return RentFUp.rentFollowUp(propertyName);
 
     }
+
+    public ModelTenantMapProperty TMP(Long tenantmapid) {
+        return TenantPrep.findById(tenantmapid).orElse(null);
+    }
+
+    public boolean saveRentReminder(Long tenantmapid) {
+        ModelTenantMapProperty tmp = TenantPrep.findById(tenantmapid).orElse(null);
+
+        if (tmp == null) {
+            return false;
+        }
+
+        List<ModelReminder> existing =
+                ReminderRep.findByTenantMap(tmp);
+
+        if (!existing.isEmpty()) {
+
+            return false;
+        }
+
+        else {
+
+
+            String tenantName = tmp.getTenant().getFirstname();
+            String propertyName = tmp.getProperty().getPropertyName();
+            Double rentAmount = tmp.getRentAmount();
+
+            String Message = "Dear " + " " + tenantName + " " +
+                    ", your rent amount Rs " + " " + rentAmount + " " +
+                    " for property " + " " + propertyName + " " +
+                    " is pending. Please make the payment.";
+
+            ModelReminder mr = new ModelReminder();
+
+            mr.setTenantMap(tmp);
+            mr.setReminderDate(LocalDate.now());
+            mr.setMessage(Message);
+            mr.setStatus("Sent");
+
+            ReminderRep.save(mr);
+        }
+
+        return true;
+    }
+
 }

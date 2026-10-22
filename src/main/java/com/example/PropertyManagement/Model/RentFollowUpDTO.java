@@ -4,21 +4,30 @@ public class RentFollowUpDTO {
 
     private String tenantName;
     private String propertyName;
-    private Long tenantmapid;
-    private Long rentPaymentId;
     private String month;
     private Double amount;
+    private String mobile;
+    private String status;
+    private Long tenantmapid;
 
     public RentFollowUpDTO() {
     }
 
-    public RentFollowUpDTO(String tenantName, String propertyName, Long tenantmapid, Long rentPaymentId, String month, Double amount) {
+    public RentFollowUpDTO(String tenantName,
+                           String propertyName,
+                           String month,
+                           Double amount,
+                           String mobile,
+                           String status,
+                           Long tenantmapid) {
+
         this.tenantName = tenantName;
         this.propertyName = propertyName;
-        this.tenantmapid = tenantmapid;
-        this.rentPaymentId = rentPaymentId;
         this.month = month;
         this.amount = amount;
+        this.mobile = mobile;
+        this.status = status;
+        this.tenantmapid = tenantmapid;
     }
 
     public String getTenantName() {
@@ -37,22 +46,6 @@ public class RentFollowUpDTO {
         this.propertyName = propertyName;
     }
 
-    public Long getTenantmapid() {
-        return tenantmapid;
-    }
-
-    public void setTenantmapid(Long tenantmapid) {
-        this.tenantmapid = tenantmapid;
-    }
-
-    public Long getRentPaymentId() {
-        return rentPaymentId;
-    }
-
-    public void setRentPaymentId(Long rentPaymentId) {
-        this.rentPaymentId = rentPaymentId;
-    }
-
     public String getMonth() {
         return month;
     }
@@ -67,5 +60,29 @@ public class RentFollowUpDTO {
 
     public void setAmount(Double amount) {
         this.amount = amount;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Long getTenantmapid() {
+        return tenantmapid;
+    }
+
+    public void setTenantmapid(Long tenantmapid) {
+        this.tenantmapid = tenantmapid;
     }
 }

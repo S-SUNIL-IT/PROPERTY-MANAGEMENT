@@ -6,6 +6,7 @@ import com.example.PropertyManagement.Service.EmployeeService;
 import jakarta.persistence.Access;
 import jakarta.persistence.GeneratedValue;
 import jakarta.servlet.http.HttpSession;
+import org.hibernate.dialect.LobMergeStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -396,15 +397,50 @@ public class EmployeeController {
 
 
     @GetMapping("/RentFollowUPPage")
-    public String rentFollow(Model model) {
+    public String rentFollow(Model model, @RequestParam(required = false) String propertyName) {
 
         model.addAttribute("payments",
-                EService.getRentFollowUp());
+                EService.getRentFollowUp(propertyName));
 
         return "RentFollowUPPage";
     }
 
+    @GetMapping("/Reminder/{tenantmapid}")
+    public String reminder(@PathVariable Long tenantmapid, Model model) {
 
+        ModelTenantMapProperty TMP = EService.TMP(tenantmapid);
+
+        if (TMP == null) {
+            return "redirect:/RentFollowUPPage";
+        }
+
+        model.addAttribute("tenant",TMP.getTenant());
+        model.addAttribute("property", TMP.getProperty());
+        model.addAttribute("rentAmount",TMP.getRentAmount());
+
+
+        return "Reminder";
+
+    }
+
+    @PostMapping("/SendReminder/{tenantmapid}")
+    public String sendReminder(
+            @PathVariable Long tenantmapid,
+            RedirectAttributes redirectAttributes) {
+
+        boolean result = EService.saveRentReminder(tenantmapid);
+
+        if (result) {
+
+            redirectAttributes.addFlashAttribute("success", "Reminder sent successfully");
+
+        } else {
+
+            redirectAttributes.addFlashAttribute("error", "Already sent reminder");
+        }
+
+        return "redirect:/RentFollowUPPage";
+    }
 }
 
 

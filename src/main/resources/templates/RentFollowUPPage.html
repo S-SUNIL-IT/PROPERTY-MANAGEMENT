@@ -36,6 +36,20 @@
 
     <div class="container-fluid">
 
+        <div th:if="${success}"
+             class="alert alert-success text-center">
+            <span th:text="${success}"></span>
+        </div>
+        <div th:if="${success}"
+             class="alert alert-success text-center">
+            <span th:text="${success}"></span>
+        </div>
+
+        <div th:if="${error}"
+             class="alert alert-danger text-center">
+            <span th:text="${error}"></span>
+        </div>
+
         <div class="row">
 
             <div class="col-md-12 text-center">
@@ -53,16 +67,16 @@
                             <div class="card-body">
 
                                 <h4 class="mb-4">
-                                    Rent Follow UP
+                                    Rent Follow Up
                                 </h4>
 
                                 <div class="row mb-4">
 
-                                    <form th:action="@{/RFollow}" method="get">
+                                    <form th:action="@{/RentFollowUPPage}" method="get">
 
-                                        <div class="row">
+                                        <div class="row justify-content-center align-items-end">
 
-                                            <div class="col-md-4">
+                                            <div class="col-md-8">
 
                                                 <label>Property Name</label>
 
@@ -73,27 +87,7 @@
 
                                             </div>
 
-                                            <div class="col-md-3">
-
-                                                <label>From Month</label>
-
-                                                <input type="month"
-                                                       class="form-control"
-                                                       name="startMonth">
-
-                                            </div>
-
-                                            <div class="col-md-3">
-
-                                                <label>To Month</label>
-
-                                                <input type="month"
-                                                       class="form-control"
-                                                       name="endMonth">
-
-                                            </div>
-
-                                            <div class="col-md-2 d-flex align-items-end">
+                                            <div class="col-md-4">
 
                                                 <button class="btn btn-primary w-100">
 
@@ -105,7 +99,6 @@
                                             </div>
 
                                         </div>
-
                                     </form>
 
                                 </div>
@@ -130,10 +123,6 @@
 
                                             <th>Amount</th>
 
-                                            <th>Payment Mode</th>
-
-                                            <th>Pending Month</th>
-
                                             <th>Mobile</th>
 
                                             <th>Status</th>
@@ -150,9 +139,9 @@
 
                                             <td th:text="${status.count}"></td>
 
-                                            <td th:text="${payment.tenantMap.tenant.firstname}"></td>
+                                            <td th:text="${payment.tenantName}"></td>
 
-                                            <td th:text="${payment.tenantMap.property.propertyName}"></td>
+                                            <td th:text="${payment.propertyName}"></td>
 
                                             <td th:text="${payment.month}"></td>
 
@@ -161,22 +150,26 @@
                                             <td th:text="${payment.mobile}"></td>
 
                                             <td>
-                                                <span class="badge bg-danger">
-                                               Pending
-                                                </span>
+        <span class="badge bg-danger"
+              th:text="${payment.status}">
+        </span>
                                             </td>
 
-                                            <a th:href="@{|/Reminder/${payment.tenantMapID}|}"
-                                               class="btn btn-warning">
-                                                <i class="bi bi-bell-fill"></i> Reminder
-                                            </a>
+                                            <td>
+                                                <a th:href="@{|/Reminder/${payment.tenantmapid}|}"
+                                                   class="btn btn-warning">
+                                                    <i class="bi bi-bell-fill"></i>
+                                                    Reminder
+                                                </a>
+                                            </td>
+
                                         </tr>
 
                                         <tr th:if="${#lists.isEmpty(payments)}">
 
-                                            <td colspan="9">
+                                            <td colspan="8" class="text-center">
 
-                                                No Pending Data
+                                                No Pending Rent
 
                                             </td>
 
